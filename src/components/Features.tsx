@@ -12,14 +12,14 @@ export function Features() {
       <div className="relative mx-auto px-4 lg:py-20 md:px-6 md:py-16 py-12 text-default max-w-screen-xl">
         <div className="text-center mb-8 md:mb-12 md:mx-auto">
           <h2 className="font-bold leading-tighter font-heading tracking-tighter text-heading md:text-4xl text-3xl">
-            What can you achieve with us?
+            How exactly can our product help you?
           </h2>
           <p className="text-muted text-xl mt-4">
-            We partner with you through the entire journey, bringing your ideas
-            to life with frontend, backend, cloud, and AI expertise.
+            With our service you could expose any local service that you can run
+            on the Internet. Here are some use cases.
           </p>
         </div>
-        <div className="mx-auto gap-8 grid sm:grid-cols-2 md:gap-y-12">
+        <div className="mx-auto gap-8 grid sm:grid-cols-2 md:gap-y-12 text-lg">
           <div>
             <div className="flex flex-row  gap-2">
               <div className="flex justify-center">
@@ -37,13 +37,15 @@ export function Features() {
               </div>
               <div className="mt-0.5">
                 <h3 className="font-bold text-xl md:text-[1.3rem]">
-                  <a href="/blog/unraveling-the-digital-realm-what-really-is-a-website">
-                    Custom Web Application Development
-                  </a>
+                  Custom Web Application Development
                 </h3>
-                <p className="text-muted mt-3">
-                  Create unique web applications tailored to your needs, using
-                  the latest web technologies for efficiency and innovation.
+                <p className="text-muted mt-3 text-justify">
+                  Deploy web services with seamless access to your
+                  organization's internal APIs without the need for a full
+                  system migration. Enjoy a smooth integration process, allowing
+                  incremental enhancements to your system without disruptions.
+                  Experience the benefits of phased deployment, optimizing
+                  efficiency while maintaining operational continuity.
                 </p>
               </div>
             </div>
@@ -65,13 +67,16 @@ export function Features() {
               </div>
               <div className="mt-0.5">
                 <h3 className="font-bold text-xl md:text-[1.3rem]">
-                  <Link href="/blog/mobile-app-development-from-idea-to-success">
-                    Mobile App Development
-                  </Link>
+                  Mobile App Development
                 </h3>
-                <p className="text-muted mt-3">
-                  Craft mobile apps for Android and iOS, integrating them
-                  seamlessly with web systems and databases.
+                <p className="text-muted mt-3 text-justify">
+                  Craft engaging real-time peer-to-peer applications that foster
+                  interactive experiences. Our platform enables you to create
+                  innovative solutions for direct communication and
+                  collaboration. Whether it's messaging, file sharing, or
+                  collaborative tools, explore the potential of seamless
+                  applications leveraging peer-to-peer technology for enhanced
+                  connectivity.
                 </p>
               </div>
             </div>
@@ -120,14 +125,15 @@ export function Features() {
               </div>
               <div className="mt-0.5">
                 <h3 className="font-bold text-xl md:text-[1.3rem]">
-                  <Link href="/blog/boost-your-business-with-a-data-driven-business-strategy">
-                    Boost Your Business with a Data-Driven Business Strategy
-                  </Link>
+                  Elevate Your Business with a Data-Driven Strategy
                 </h3>
-                <p className="text-muted mt-3">
-                  Are you looking to take your business to the next level? Are
-                  you seeking a competitive advantage that sets you apart in the
-                  market?
+                <p className="text-muted mt-3 text-justify">
+                  Enable cost-effective data sharing by providing seamless
+                  access to your diverse data sources. Say goodbye to expensive
+                  server setups and cloud service commitments while ensuring
+                  efficient collaboration and data accessibility. Experience the
+                  benefits of streamlined data management without compromising
+                  security or incurring unnecessary expenses.
                 </p>
               </div>
             </div>
@@ -158,14 +164,13 @@ export function Features() {
               </div>
               <div className="mt-0.5">
                 <h3 className="font-bold text-xl md:text-[1.3rem]">
-                  <Link href="/blog/unlocking-business-potential-with-alex-from-aws">
-                    Scaling Your Business with AWS, No Infrastructure Worries.
-                  </Link>
+                  Unlocking Cloud Benefits with Minimal Commitment
                 </h3>
-                <p className="text-muted mt-3">
-                  Reduce costs, scale your business, and let AWS handle the
-                  infrastructure. Discover how AWS offers flexibility and
-                  efficiency without long-term commitments.
+                <p className="text-muted mt-3 text-justify">
+                  Harness cloud benefits without lengthy commitments. Our
+                  flexible solution offers scalability, on-demand services, and
+                  enhanced flexibility, allowing you to adapt at your own pace
+                  for agile and cost-effective results.
                 </p>
               </div>
             </div>
@@ -202,14 +207,17 @@ export function Features() {
               </div>
               <div className="mt-0.5">
                 <h3 className="font-bold text-xl md:text-[1.3rem]">
-                  <a href="/blog/integration-of-bots-intelligent-automation-for-your-business-and-education">
-                    Bot Integration
-                  </a>
+                  Bot Integration
                 </h3>
-                <p className="text-muted mt-3">
-                  Enhance user experiences and automate processes with the
-                  seamless integration of chatbots and AI-driven bots into your
-                  digital platforms.
+                <p className="text-muted mt-3 text-justify">
+                  Pioneering the forefront of technological innovation, our
+                  company specializes in the development of cutting-edge robotic
+                  systems that boast advanced capabilities. What sets our
+                  creations apart is the ability for users to seamlessly control
+                  these sophisticated robots directly from the internet. This
+                  revolutionary approach opens up a myriad of possibilities,
+                  enabling remote operation and management of robotic assets
+                  from any location with an internet connection.
                 </p>
               </div>
             </div>
@@ -231,13 +239,15 @@ export function Features() {
               </div>
               <div className="mt-0.5">
                 <h3 className="font-bold text-xl md:text-[1.3rem]">
-                  <Link href="/blog/ai-generative-power-for-all-what-to-consider">
-                    Data Science Consulting
-                  </Link>
+                  Integrates advanced AI services
                 </h3>
-                <p className="text-muted mt-3">
-                  Help businesses effectively use data through expert consulting
-                  and provide training for internal teams.
+                <p className="text-muted mt-3 text-justify">
+                  Maximize AI efficiency and security by creating and storing
+                  services locally. Our cost-effective platform ensures
+                  financial protection and data privacy. Tailor solutions to
+                  your industry's needs, enjoying user-friendly interfaces for
+                  easy AI management. Transform your approach to AI with
+                  accessibility and security at the forefront.
                 </p>
               </div>
             </div>
