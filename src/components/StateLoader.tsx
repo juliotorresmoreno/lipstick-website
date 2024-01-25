@@ -15,7 +15,7 @@ export function StateLoader(props: StateLoaderProps) {
   useEffect(() => {
     dispatch(appActions.setConfig(props.config));
     setIsLoaded(true);
-  }, [props.config]);
+  }, [props.config, dispatch]);
 
   if (!isLoaded) return null;
 

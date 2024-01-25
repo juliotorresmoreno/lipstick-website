@@ -22,9 +22,10 @@ const _Crud: React.FC<_CrudProps> = (props: _CrudProps) => {
   const [total, setTotal] = useState<number>(0);
   const restApi = props.restApi;
   const fields = restApi.fields || [];
+  const token = props.auth?.token ?? "";
   const APIClient = useMemo(
-    () => new RestAPIClient(props.auth?.token ?? "", restApi),
-    [props.app?.apiUrl]
+    () => new RestAPIClient(token, restApi),
+    [restApi, token]
   );
   const [page, setPage] = useState(1);
 
@@ -35,7 +36,7 @@ const _Crud: React.FC<_CrudProps> = (props: _CrudProps) => {
       setTotal(total);
     }
     getData();
-  }, [restApi, page]);
+  }, [APIClient, restApi, page]);
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 flex-1">

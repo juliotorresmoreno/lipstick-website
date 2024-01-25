@@ -2,14 +2,13 @@
 
 import Link from "next/link";
 import { Navbar as FBNavbar } from "flowbite-react";
-import logoSrc from "@/assets/logo.jpeg";
 import Image from "next/image";
 
 export function AppNavBar() {
   return (
     <FBNavbar fluid rounded>
       <FBNavbar.Brand as={Link} href="/app">
-        <img
+        <Image
           style={{ width: "2rem", height: "2rem" }}
           src={"/logo.jpeg"}
           className="rounded-full mr-2"

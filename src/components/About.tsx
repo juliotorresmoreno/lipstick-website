@@ -1,17 +1,16 @@
 import { Card } from "flowbite-react";
 import Image from "next/image";
-import cloudSrc from "@/assets/cloud.jpg";
 
 export function About() {
   return (
     <section className="bg-white" id="about">
       <div className="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
-        <img
+        <Image
           className="w-full"
           src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/cta/cta-dashboard-mockup.svg"
           alt="dashboard image"
         />
-        <img
+        <Image
           className="w-full hidden"
           src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/cta/cta-dashboard-mockup-dark.svg"
           alt="dashboard image"
@@ -21,17 +20,17 @@ export function About() {
             Create and integrate services into your real world
           </h2>
           <p className="text-muted text-xl mt-4 text-justify">
-            We've engineered a system that empowers you to seamlessly share your
-            local services and integrations, making them accessible on the
+            We&apos;ve engineered a system that empowers you to seamlessly share
+            your local services and integrations, making them accessible on the
             Internet. This groundbreaking platform enables the development of
             advanced robotic systems, facilitates the sharing of web cameras,
-            and extends to the accessibility of your company's internal data and
-            expensive artificial intelligence models. The key advantage lies in
-            running these resource-intensive AI models in the cloud using your
-            own infrastructure, unlocking unprecedented flexibility and
-            cost-effectiveness for your operations. Join us in transforming the
-            way you leverage your resources for a more connected and efficient
-            future.
+            and extends to the accessibility of your company&apos;s internal
+            data and expensive artificial intelligence models. The key advantage
+            lies in running these resource-intensive AI models in the cloud
+            using your own infrastructure, unlocking unprecedented flexibility
+            and cost-effectiveness for your operations. Join us in transforming
+            the way you leverage your resources for a more connected and
+            efficient future.
           </p>
           <a
             href="#"

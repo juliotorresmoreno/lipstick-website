@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export function Hero() {
@@ -32,7 +33,7 @@ export function Hero() {
           </Link>
         </div>
         <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
-          <img
+          <Image
             src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/mobile-app.svg"
             alt="mockup"
             className=""

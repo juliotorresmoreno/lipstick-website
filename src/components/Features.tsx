@@ -41,7 +41,7 @@ export function Features() {
                 </h3>
                 <p className="text-muted mt-3 text-justify">
                   Deploy web services with seamless access to your
-                  organization's internal APIs without the need for a full
+                  organization&apos;s internal APIs without the need for a full
                   system migration. Enjoy a smooth integration process, allowing
                   incremental enhancements to your system without disruptions.
                   Experience the benefits of phased deployment, optimizing
@@ -73,7 +73,7 @@ export function Features() {
                   Craft engaging real-time peer-to-peer applications that foster
                   interactive experiences. Our platform enables you to create
                   innovative solutions for direct communication and
-                  collaboration. Whether it's messaging, file sharing, or
+                  collaboration. Whether it&apos;s messaging, file sharing, or
                   collaborative tools, explore the potential of seamless
                   applications leveraging peer-to-peer technology for enhanced
                   connectivity.
@@ -245,7 +245,7 @@ export function Features() {
                   Maximize AI efficiency and security by creating and storing
                   services locally. Our cost-effective platform ensures
                   financial protection and data privacy. Tailor solutions to
-                  your industry's needs, enjoying user-friendly interfaces for
+                  your industry&apos;s needs, enjoying user-friendly interfaces for
                   easy AI management. Transform your approach to AI with
                   accessibility and security at the forefront.
                 </p>

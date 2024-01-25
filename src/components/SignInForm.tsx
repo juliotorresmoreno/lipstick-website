@@ -24,7 +24,7 @@ function _SignInForm(props: _SignInForm) {
   const dispatch = useAppDispatch();
   const authService = useMemo<AuthService>(
     () => new AuthService({ apiUrl: props.apiUrl }),
-    []
+    [props.apiUrl]
   );
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = async (evt) => {

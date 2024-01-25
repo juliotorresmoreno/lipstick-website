@@ -11,11 +11,11 @@ interface _PageProps {
   auth: AuthState;
 }
 
-export function _Page(props: _PageProps) {
+function _Page(props: _PageProps) {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(auth.setSession(null));
-  }, [props.auth]);
+  }, [dispatch, props.auth]);
   if (props.auth) return null;
   return redirect("/");
 }
@@ -24,6 +24,6 @@ const mapToProps = (state: RootState) => ({
   auth: state.auth,
 });
 
-const Page = connect(mapToProps)(_Page);
+const Page: React.FC = connect(mapToProps)(_Page);
 
 export default Page;
