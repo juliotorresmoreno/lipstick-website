@@ -21,13 +21,13 @@ export function NavBar() {
       </FBNavbar.Brand>
       <FBNavbar.Toggle />
       <FBNavbar.Collapse className="font-extrabold text-default">
-        <FBNavbar.Link className="font-extrabold text-lg" href="#about">
+        <FBNavbar.Link className="font-extrabold text-lg" href="/#about">
           About
         </FBNavbar.Link>
-        <FBNavbar.Link className="font-extrabold text-lg" href="#features">
+        <FBNavbar.Link className="font-extrabold text-lg" href="/#features">
           Features
         </FBNavbar.Link>
-        <FBNavbar.Link className="font-extrabold text-lg" href="#pricing">
+        <FBNavbar.Link className="font-extrabold text-lg" href="/#pricing">
           Pricing
         </FBNavbar.Link>
         <FBNavbar.Link
