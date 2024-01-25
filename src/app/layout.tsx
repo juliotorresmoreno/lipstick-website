@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import StoreProvider from "./StoreProvider";
-import { StateLoader } from "@/components/StateLoader";
 import "./globals.css";
+import { StateLoader } from "@/components/StateLoader";
 import config from "@/config";
+import { usePathname } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,12 +18,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const isServer = typeof window === "undefined";
-
   return (
     <html lang="en">
       <body className={inter.className}>
-        <StoreProvider>{children}</StoreProvider>
+        <StoreProvider>
+          <StateLoader config={config}>{children}</StateLoader>
+        </StoreProvider>
       </body>
     </html>
   );

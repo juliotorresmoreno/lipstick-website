@@ -6,14 +6,16 @@ interface UseInputProps<T> {
 
 interface UseInputReturn<T> {
   value: T;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   reset: () => void;
 }
 
 const useInput = <T,>(initialValue: T): UseInputReturn<T> => {
   const [value, setValue] = useState<T>(initialValue);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setValue(e.target.value as unknown as T);
   };
 

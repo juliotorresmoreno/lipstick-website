@@ -8,8 +8,8 @@ import { Features } from "@/components/Features";
 export default function Home() {
   return (
     <>
+      <NavBar />
       <main className="">
-        <NavBar />
         <Hero />
         <About />
         <Features />

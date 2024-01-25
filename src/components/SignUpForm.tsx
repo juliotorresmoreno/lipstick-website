@@ -1,21 +1,18 @@
 "use client";
 import { useMemo, useState } from "react";
 import { Alert } from "flowbite-react";
-import useInput from "@/hooks/useInput";
-import { connect } from "react-redux";
-import { ThunkDispatch } from "redux-thunk";
-import { AppState } from "@/lib/reducers/app";
 import { AuthService } from "@/services/auth";
 import { useAppDispatch } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
-import { RootState } from "@/lib/reducers";
-import { Config } from "@/types/models";
 import { HiInformationCircle } from "react-icons/hi";
 import * as auth from "@/lib/actions/auth";
+import useInput from "@/hooks/useInput";
+import { RootState } from "@/lib/reducers";
+import { connect } from "react-redux";
 
-interface SignUpFormProps {}
-
-type _SignUpFormProps = { app: AppState } & SignUpFormProps;
+interface _SignUpFormProps {
+  apiUrl: string;
+}
 
 function _SignUpForm(props: _SignUpFormProps) {
   const [terms, setTerms] = useState(false);
@@ -27,7 +24,7 @@ function _SignUpForm(props: _SignUpFormProps) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const authService = useMemo<AuthService>(
-    () => new AuthService(props.app as Config),
+    () => new AuthService({ apiUrl: props.apiUrl }),
     []
   );
 
@@ -142,13 +139,8 @@ function _SignUpForm(props: _SignUpFormProps) {
   );
 }
 
-const mapStateToProps = (state: RootState) => ({
-  app: state.app,
-});
+const mapStateToProps = (state: RootState) => state.app;
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) => ({
-  dispatch: dispatch,
-});
+const SignUpForm = connect(mapStateToProps)(_SignUpForm);
 
-const SignUpForm = connect(mapStateToProps, mapDispatchToProps)(_SignUpForm);
 export default SignUpForm;

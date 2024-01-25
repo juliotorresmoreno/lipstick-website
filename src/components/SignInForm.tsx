@@ -1,23 +1,21 @@
 "use client";
 import { useMemo, useState } from "react";
 import { Alert } from "flowbite-react";
-import { connect } from "react-redux";
-import { ThunkDispatch } from "redux-thunk";
-import { AppState } from "@/lib/reducers/app";
 import { AuthService } from "@/services/auth";
 import { useAppDispatch } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
-import { RootState } from "@/lib/reducers";
-import { Config } from "@/types/models";
 import { HiInformationCircle } from "react-icons/hi";
 import * as auth from "@/lib/actions/auth";
 import useInput from "@/hooks/useInput";
+import { connect } from "react-redux";
+import { RootState } from "@/lib/reducers";
 
-interface SignInFormProps {}
+interface _SignInForm {
+  apiUrl: string;
+}
 
-type _SignInFormProps = { app: AppState } & SignInFormProps;
-
-function _SignInForm(props: _SignInFormProps) {
+function _SignInForm(props: _SignInForm) {
+  console.log(props);
   const [emailErr, setEmailErr] = useState("");
   const [passwordErr, setPasswordErr] = useState("");
   const { value: email, onChange: onEmailChange } = useInput("");
@@ -25,7 +23,7 @@ function _SignInForm(props: _SignInFormProps) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const authService = useMemo<AuthService>(
-    () => new AuthService(props.app as Config),
+    () => new AuthService({ apiUrl: props.apiUrl }),
     []
   );
 
@@ -38,7 +36,6 @@ function _SignInForm(props: _SignInFormProps) {
         router.push("/app");
       })
       .catch((err: Error) => {
-        console.log(err);
         const cause: any = err.cause;
         setEmailErr(cause.email);
         setPasswordErr(cause.password);
@@ -115,12 +112,9 @@ function _SignInForm(props: _SignInFormProps) {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  app: state.app,
+  apiUrl: state.app?.apiUrl ?? "",
 });
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) => ({
-  dispatch: dispatch,
-});
+const SignInForm = connect(mapStateToProps)(_SignInForm);
 
-const SignInForm = connect(mapStateToProps, mapDispatchToProps)(_SignInForm);
 export default SignInForm;
