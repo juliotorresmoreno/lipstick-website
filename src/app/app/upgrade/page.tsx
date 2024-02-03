@@ -1,9 +1,14 @@
+"use client";
 import { AppLayout } from "@/components/AppLayout";
+import { PaymentMethod } from "@/components/PaymentMethod";
+import { Protected } from "@/components/Protected";
 
 export default function Page() {
   return (
-    <AppLayout>
-      <div className="bg-pink-400 flex-1">asdasd</div>
-    </AppLayout>
+    <Protected>
+      <AppLayout>
+        <PaymentMethod />
+      </AppLayout>
+    </Protected>
   );
 }

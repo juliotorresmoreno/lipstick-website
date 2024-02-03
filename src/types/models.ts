@@ -11,5 +11,9 @@ export interface Session {
 }
 
 export interface Config {
+  baseUrl: string;
   apiUrl: string;
+  mercadoPagoPublicKey: string;
+  pricingTableId: string;
+  publishableKey: string;
 }

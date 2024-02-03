@@ -6,31 +6,22 @@ export interface Field {
 }
 
 export interface RestAPI {
-  fields: Field[];
-  get primaryKey(): Field;
   endpoint: string;
 }
 
-export interface Row {
+export interface Record {
   [x: string]: any;
+  id: number;
 }
 
-export function MakeRestAPI(endpoint: string, fields: Field[]): RestAPI {
+export function MakeRestAPI(endpoint: string): RestAPI {
   return {
-    fields,
     endpoint,
-    get primaryKey() {
-      const primaryKey = fields.find((field) => field.primary);
-      if (!primaryKey) {
-        throw new Error("Primary key does not exists");
-      }
-      return primaryKey;
-    },
   };
 }
 
 export interface FindOptions {
-  page: number;
+  page?: number;
 }
 
 export interface RestAPIClientArgs {
@@ -39,14 +30,77 @@ export interface RestAPIClientArgs {
 }
 
 export class RestAPIClient {
-  constructor(private token: string, private restApi: RestAPI) {}
+  private token: string = "";
+  public fields?: Field[];
 
-  async find({ page }: FindOptions): Promise<{ data: Row[]; total: number }> {
-    const url = `${this.restApi.endpoint}?page=${page}`;
+  constructor(private restApi: RestAPI) {}
+
+  configure(token: string) {
+    this.token = token;
+  }
+
+  async find({ page }: FindOptions = {}): Promise<{
+    data: Record[];
+    total: number;
+  }> {
+    let url = `${this.restApi.endpoint}`;
+    if (page) url += `?page=${page}`;
+
+    if (!this.token) return { data: [], total: 0 };
+
     const response = await fetch(url, {
       method: "GET",
       headers: {
-        autorization: `Bearer ${this.token}`,
+        Authorization: `Bearer ${this.token}`,
+      },
+      credentials: "include",
+      mode: "cors",
+    });
+
+    if (!response.ok) {
+      throw new Error("Server exception");
+    }
+    return response.json();
+  }
+
+  async post(record: any): Promise<void> {
+    const response = await fetch(this.restApi.endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.token}`,
+      },
+      credentials: "include",
+      mode: "cors",
+      body: JSON.stringify(record),
+    });
+    if (!response.ok) {
+      const content = await response.json();
+      throw new Error("Server exception", { cause: content });
+    }
+  }
+
+  async patch({ id, ...record }: Record): Promise<void> {
+    const response = await fetch(`${this.restApi.endpoint}/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.token}`,
+      },
+      credentials: "include",
+      mode: "cors",
+      body: JSON.stringify(record),
+    });
+    if (!response.ok) {
+      throw new Error("Server exception");
+    }
+  }
+
+  async delete(id: number): Promise<void> {
+    const response = await fetch(`${this.restApi.endpoint}/${id}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${this.token}`,
       },
       credentials: "include",
       mode: "cors",
@@ -54,6 +108,5 @@ export class RestAPIClient {
     if (!response.ok) {
       throw new Error("Server exception");
     }
-    return response.json();
   }
 }

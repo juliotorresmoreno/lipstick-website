@@ -2,28 +2,78 @@
 
 import useInput from "@/hooks/useInput";
 import { Button, Modal } from "flowbite-react";
-import { FormEventHandler, useState } from "react";
+import { FormEventHandler, KeyboardEventHandler, useState } from "react";
+import { withApiData } from "@/hoc/withApiData";
+import { Record, RestAPIClient } from "@/services/api";
 
 interface ProductProps {
   id?: number;
   isOpen: boolean;
+  version: number;
+  setVersion: (n: number) => void;
   onToggle(): void;
+  apiClient: RestAPIClient;
 }
 
-export function Product(props: ProductProps) {
-  const { value: productName, onChange: onProductNameChange } = useInput("");
-  const { value: description, onChange: onDescriptionChange } = useInput("");
-  const onSave: FormEventHandler<HTMLFormElement> = () => {
-    props.onToggle();
+interface _ProductProps extends ProductProps {
+  total: number;
+  data: Record[];
+}
+
+const _Product = (props: _ProductProps) => {
+  const {
+    value: name,
+    onChange: onNameChange,
+    setValue: setName,
+  } = useInput("");
+  const {
+    value: description,
+    onChange: onDescriptionChange,
+    setValue: setDescription,
+  } = useInput("");
+  const { value: instanceType, onChange: onInstanceTypeChange } = useInput(
+    props.data.length ? props.data[0].id : 0
+  );
+  const [nameError, setNameError] = useState("");
+  const [descriptionError, setDescriptionError] = useState("");
+  const onSave: FormEventHandler<HTMLButtonElement> = (evt) => {
+    const payload = {
+      name,
+      description,
+      instance_type_id: instanceType,
+    };
+    setNameError("");
+    setDescriptionError("");
+
+    props.apiClient
+      .post(payload)
+      .then(() => {
+        props.setVersion(Date.now());
+        props.onToggle();
+        setName("");
+        setDescription("");
+      })
+      .catch((err: Error) => {
+        const cause: any = err.cause;
+        setNameError(cause.name ?? "");
+        setDescriptionError(cause.description ?? "");
+      });
   };
   const onCancel = () => {
     props.onToggle();
   };
+  const onNameKeyPress: KeyboardEventHandler<HTMLInputElement> = (evt) => {
+    const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+    if (!alphanumericRegex.test(evt.key)) {
+      evt.preventDefault();
+    }
+  };
+
   return (
     <Modal show={props.isOpen} onClose={() => props.onToggle()}>
       <Modal.Header>{props.id ? "Update Product" : "Add Product"}</Modal.Header>
       <Modal.Body>
-        <form onSubmit={onSave}>
+        <form>
           <div className="flex flex-col gap-2">
             <div>
               <label
@@ -33,15 +83,24 @@ export function Product(props: ProductProps) {
                 Name
               </label>
               <input
-                value={productName}
-                onChange={onProductNameChange}
+                value={name}
+                onChange={onNameChange}
+                onKeyDown={onNameKeyPress}
                 id="product_name"
                 type="text"
                 name="product_name"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-blue-100 focus:outline-none block w-full p-2.5"
                 placeholder="Type product name"
                 required
               />
+              {nameError && (
+                <div
+                  className="p-4 mt-2 mb-2 text-sm text-red-800 rounded-lg bg-red-50"
+                  role="alert"
+                >
+                  {nameError}
+                </div>
+              )}
             </div>
             <div>
               <label
@@ -52,19 +111,22 @@ export function Product(props: ProductProps) {
               </label>
               <select
                 id="plan"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+                value={instanceType}
+                onChange={onInstanceTypeChange}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-blue-100 focus:outline-none block w-full p-2.5"
               >
-                <option selected value="free">
-                  Free
-                </option>
-                <option value="starter">Starter</option>
-                <option value="company">Company</option>
+                {props.data.map((element) => (
+                  <option key={element.id} value={element.id}>
+                    {element.name} [{element.description}] (USD ${element.price}
+                    /Month)
+                  </option>
+                ))}
               </select>
             </div>
             <div className="sm:col-span-2">
               <label
                 htmlFor="description"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-gray-900"
               >
                 Description
               </label>
@@ -73,9 +135,17 @@ export function Product(props: ProductProps) {
                 onChange={onDescriptionChange}
                 id="description"
                 rows={4}
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
+                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:border-blue-100 focus:outline-none"
                 placeholder="Write product description here"
               />
+              {descriptionError && (
+                <div
+                  className="p-4 mt-2 mb-2 text-sm text-red-800 rounded-lg bg-red-50"
+                  role="alert"
+                >
+                  {descriptionError}
+                </div>
+              )}
             </div>
           </div>
           <button
@@ -99,13 +169,25 @@ export function Product(props: ProductProps) {
         </form>
       </Modal.Body>
       <Modal.Footer>
-        <Button color="blue" type="submit">
+        <button
+          type="button"
+          onClick={onSave}
+          className="flex items-centerc h-[2.3rem] w-[80px] bg-blue-500 hover:bg-blue-600 justify-center text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
+        >
           {props.id ? "Update" : "Create"}
-        </Button>
-        <Button color="failure" type="button" onClick={onCancel}>
+        </button>
+        <button
+          type="button"
+          onClick={onCancel}
+          className="flex items-centerc h-[2.3rem] w-[80px] bg-red-500 hover:bg-red-600 justify-center text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
+        >
           Cancel
-        </Button>
+        </button>
       </Modal.Footer>
     </Modal>
   );
-}
+};
+
+export const Product: React.FC<ProductProps> = withApiData(_Product, {
+  endpoint: "/instance-types",
+}) as any;

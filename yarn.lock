@@ -451,6 +451,18 @@
     unist-util-visit "^4.0.0"
     vfile "^5.0.0"
 
+"@mercadopago/sdk-js@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@mercadopago/sdk-js/-/sdk-js-0.0.3.tgz#f54eee5faa7d8d7253b5c03b0ef09dcb8229698a"
+  integrity sha512-kO48DNLHdfFAp3on12nuKdqNlEmw1x3+nM6wLd04BdWOXoFcAhkNMQV3AyUIanXdO/bB/dENakdacLT29297EQ==
+
+"@mercadopago/sdk-react@^0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@mercadopago/sdk-react/-/sdk-react-0.0.16.tgz#10215ffc38827fc7c59ce6f7e21f88d6efe74b6a"
+  integrity sha512-xQuRpi5qcK8medwJD8P/b4mSKii56dSKf29ig1JeMDpQhlGJ7JAQWgqkjDSEbAL2lzkiVVqLkSqa0hG3KCvybg==
+  dependencies:
+    "@mercadopago/sdk-js" "^0.0.3"
+
 "@next/env@14.0.4":
   version "14.0.4"
   resolved "https://registry.yarnpkg.com/@next/env/-/env-14.0.4.tgz#d5cda0c4a862d70ae760e58c0cd96a8899a2e49a"

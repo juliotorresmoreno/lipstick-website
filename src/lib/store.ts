@@ -1,15 +1,30 @@
-import {
-  Tuple,
-  configureStore,
-} from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { thunk } from "redux-thunk";
 import reducers from "./reducers";
 
 export const makeStore = () => {
-  return configureStore({
+  const serializedState =
+    typeof window !== "undefined"
+      ? localStorage.getItem("reduxState")
+      : undefined;
+
+  const preloadedState = serializedState
+    ? JSON.parse(serializedState)
+    : undefined;
+
+  const store = configureStore({
     reducer: reducers,
-    middleware: () => new Tuple(thunk),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
+    preloadedState,
   });
+
+  store.subscribe(() => {
+    const state = store.getState();
+    typeof window !== "undefined" &&
+      localStorage.setItem("reduxState", JSON.stringify(state));
+  });
+
+  return store;
 };
 
 export type AppStore = ReturnType<typeof makeStore>;

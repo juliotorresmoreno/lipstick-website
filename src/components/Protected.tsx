@@ -1,3 +1,4 @@
+"use client";
 import { connect } from "react-redux";
 import { RootState } from "@/lib/reducers";
 import { AuthState } from "@/lib/reducers/auth";

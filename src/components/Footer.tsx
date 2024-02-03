@@ -9,6 +9,8 @@ export function Footer() {
           <div className="mb-6 md:mb-0">
             <a href="https://flowbite.com" className="flex items-center">
               <Image
+                width={0}
+                height={0}
                 src="https://flowbite.com/docs/images/logo.svg"
                 className="mr-3 h-8"
                 alt="FlowBite Logo"

@@ -5,12 +5,12 @@ export function About() {
   return (
     <section className="bg-white" id="about">
       <div className="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
-        <Image
+        <img
           className="w-full"
           src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/cta/cta-dashboard-mockup.svg"
           alt="dashboard image"
         />
-        <Image
+        <img
           className="w-full hidden"
           src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/cta/cta-dashboard-mockup-dark.svg"
           alt="dashboard image"

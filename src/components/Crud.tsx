@@ -1,6 +1,6 @@
 "use client";
-import { RestAPI, RestAPIClient, Row } from "@/services/api";
-import React, { useEffect, useMemo, useState } from "react";
+import { Record, RestAPIClient } from "@/services/api";
+import React, { memo, useEffect, useMemo, useState } from "react";
 import { Paginator } from "./Paginator";
 import { RootState } from "@/lib/reducers";
 import { connect } from "react-redux";
@@ -11,32 +11,28 @@ interface _CrudProps {
   app: AppState;
   auth: AuthState;
   tablename: string;
-  restApi: RestAPI;
+  apiClient: RestAPIClient;
+  title: React.ReactNode;
+  version: number;
+  renderRows: (row: Record) => React.ReactNode;
   onAdd(): void;
-  onUpdate(id: number): void;
-  onDelete(id: number): void;
 }
 
 const _Crud: React.FC<_CrudProps> = (props: _CrudProps) => {
-  const [data, setData] = useState<Row[]>([]);
+  const [data, setData] = useState<Record[]>([]);
   const [total, setTotal] = useState<number>(0);
-  const restApi = props.restApi;
-  const fields = restApi.fields || [];
-  const token = props.auth?.token ?? "";
-  const APIClient = useMemo(
-    () => new RestAPIClient(token, restApi),
-    [restApi, token]
-  );
   const [page, setPage] = useState(1);
+  const token = props.auth?.token ?? "";
 
   useEffect(() => {
     async function getData() {
-      const { data, total } = await APIClient.find({ page });
+      props.apiClient.configure(token);
+      const { data, total } = await props.apiClient.find({ page });
       setData(data);
       setTotal(total);
     }
     getData();
-  }, [APIClient, restApi, page]);
+  }, [props.apiClient, page, props.version]);
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 flex-1">
@@ -78,7 +74,7 @@ const _Crud: React.FC<_CrudProps> = (props: _CrudProps) => {
               <button
                 type="button"
                 onClick={() => props.onAdd()}
-                className="flex items-center bg-blue-600 hover:bg-blue-800 justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+                className="flex items-center bg-blue-500 hover:bg-blue-600 justify-center text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
               >
                 <svg
                   className="h-3.5 w-3.5 mr-2"
@@ -98,93 +94,11 @@ const _Crud: React.FC<_CrudProps> = (props: _CrudProps) => {
             </div>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                  {fields
-                    .filter((key) => !key.hidden)
-                    .map((key) => (
-                      <th key={key.name} scope="col" className="px-4 py-3">
-                        {key.title}
-                      </th>
-                    ))}
-                </tr>
+            <table className="w-full text-sm text-left text-gray-500">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                {props.title}
               </thead>
-              <tbody>
-                {data.map((el) => (
-                  <tr
-                    key={"item-" + el[restApi.primaryKey.name]}
-                    className="border-b"
-                  >
-                    {fields
-                      .filter((key) => !key.hidden)
-                      .map((key) => {
-                        return (
-                          <td
-                            key={`item-${key.name}-${
-                              (el as any)[restApi.primaryKey?.name ?? "id"]
-                            }`}
-                            className="px-4 py-3"
-                          >
-                            {(el as any)[key.name]}
-                          </td>
-                        );
-                      })}
-
-                    <td className="px-4 py-3 flex items-center justify-end">
-                      <button
-                        onClick={() =>
-                          props.onUpdate(el[restApi.primaryKey.name])
-                        }
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="icon icon-tabler icon-tabler-edit"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          strokeWidth="1.5"
-                          stroke="#2c3e50"
-                          fill="none"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                          <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
-                          <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
-                          <path d="M16 5l3 3" />
-                        </svg>
-                      </button>
-                      <button
-                        className=""
-                        onClick={() =>
-                          props.onDelete(el[restApi.primaryKey.name])
-                        }
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="icon icon-tabler icon-tabler-trash"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          strokeWidth="1.5"
-                          stroke="#2c3e50"
-                          fill="none"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                          <path d="M4 7l16 0" />
-                          <path d="M10 11l0 6" />
-                          <path d="M14 11l0 6" />
-                          <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                          <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                        </svg>
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+              <tbody>{data.map(props.renderRows)}</tbody>
             </table>
           </div>
           <Paginator
@@ -204,4 +118,4 @@ const mapStateToProps = (state: RootState) => ({
   auth: state.auth,
 });
 
-export const Crud = connect(mapStateToProps)(_Crud);
+export const Crud = memo(connect(mapStateToProps)(_Crud));

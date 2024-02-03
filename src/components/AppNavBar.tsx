@@ -3,14 +3,19 @@
 import Link from "next/link";
 import { Navbar as FBNavbar } from "flowbite-react";
 import Image from "next/image";
+import { connect } from "react-redux";
+import { RootState } from "@/lib/reducers";
+import { Config } from "@/types/models";
 
-export function AppNavBar() {
+interface _AppNavBarProps extends Config {}
+
+function _AppNavBar(props: _AppNavBarProps) {
   return (
     <FBNavbar fluid rounded>
       <FBNavbar.Brand as={Link} href="/app">
-        <Image
+        <img
           style={{ width: "2rem", height: "2rem" }}
-          src={"/logo.jpeg"}
+          src={`${props.baseUrl}/logo.jpeg`}
           className="rounded-full mr-2"
           alt="Logo"
         />
@@ -31,3 +36,7 @@ export function AppNavBar() {
     </FBNavbar>
   );
 }
+
+const mapToProps = (state: RootState) => state.app;
+
+export const AppNavBar: React.FC = connect(mapToProps)(_AppNavBar);
